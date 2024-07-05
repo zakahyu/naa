@@ -1,0 +1,44 @@
+name: Add Rules to Cloudflare Gateway
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y git wget
+
+      - name: Clone repository
+          URL_GITHUB: ${{ secrets.URL_GITHUB }}
+        run: |
+          mkdir -p ./app
+          mkdir -p ./non
+          git clone $URL_GITHUB ./app
+
+      - name: Download config.env
+        env:
+          CONFIG_ENV_URL: ${{ secrets.CONFIG_ENV_URL }}
+        working-directory: './app'
+        run: wget $CONFIG_ENV_URL
+      - name: Download rclone.conf
+        env:
+          RCLONE_CONF_URL: ${{ secrets.RCLONE_CONF_URL }}
+        working-directory: './app'
+        run: wget $RCLONE_CONF_URL
+      - name: Build Docker image
+        working-directory: './app'
+        run: docker build -t bot .
+
+      - name: Run Docker container
+        working-directory: './app'
+        run: docker run -d bot
+
+        - name: Run web
+        working-directory: './non'
+        run: python -m http.server 8080

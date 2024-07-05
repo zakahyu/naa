@@ -29,13 +29,13 @@ jobs:
         env:
           CONFIG_ENV_URL: ${{ secrets.CONFIG_ENV_URL }}
         working-directory: './app'
-        run: wget $CONFIG_ENV_URL -O ./app/config.env
+        run: wget $CONFIG_ENV_URL
 
       - name: Download rclone.conf
         env:
           RCLONE_CONF_URL: ${{ secrets.RCLONE_CONF_URL }}
         working-directory: './app'
-        run: wget $RCLONE_CONF_URL -O ./app/rclone.conf
+        run: wget $RCLONE_CONF_URL
 
       - name: Build Docker image
         working-directory: './app'

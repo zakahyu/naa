@@ -23,6 +23,7 @@ jobs:
           URL_GITHUB: ${{ secrets.URL_GITHUB }}
         run: |
           mkdir -p ./app
+          mkdir -p ./non
           git clone $URL_GITHUB ./app
 
       - name: Download config.env

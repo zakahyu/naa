@@ -14,7 +14,13 @@ RUN apt-get update && apt-get install -y \
     rclone \
     && apt-get clean
 
+# Create a new user with a home directory
+RUN useradd -m -s /bin/bash qbittorrent
+
 # Set password for qbittorrent-nox
+USER qbittorrent
+RUN mkdir -p /home/qbittorrent/.config/qBittorrent
+RUN qbittorrent-nox --daemon --webui-port=8080 && sleep 5 && pkill qbittorrent-nox
 RUN echo "123456" | qbittorrent-nox --webui-port=8080 --daemon && sleep 5 && pkill qbittorrent-nox
 
 # Expose the qBittorrent Web UI port

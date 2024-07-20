@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash qbittorrent
 
 # Create necessary directories with appropriate permissions
-RUN mkdir -p /home/qbittorrent/.config/qBittorrent && \
-    chown -R qbittorrent:qbittorrent /home/qbittorrent/.config
+RUN mkdir -p /home/qbittorrent/.config/qBittorrent /home/qbittorrent/.cache/qBittorrent && \
+    chown -R qbittorrent:qbittorrent /home/qbittorrent/.config /home/qbittorrent/.cache
 
 # Switch to the new user
 USER qbittorrent
